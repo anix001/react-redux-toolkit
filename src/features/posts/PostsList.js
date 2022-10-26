@@ -2,17 +2,21 @@
 import { useSelector } from "react-redux";
 import PostExcerpt from "./PostExcerpt";
 import {
-  selectAllPosts,
+  //selectAllPosts,
   getPostsStatus,
   getPostsError,
+  selectPostByIds
   // fetchPosts,
 } from "./postsSlice";
 
+
 const PostsList = () => {
   // const dispatch = useDispatch();
-  const posts = useSelector(selectAllPosts);
+  // const posts = useSelector(selectAllPosts);
+  const orderedPostsIds = useSelector(selectPostByIds);
   const postsStatus = useSelector(getPostsStatus);
   const error = useSelector(getPostsError);
+  
 
   // useEffect(() => {
   //   if (postsStatus === "idle") {
@@ -24,12 +28,13 @@ const PostsList = () => {
   if (postsStatus === "loading") {
     content = <p>"Loading ...."</p>;
   } else if (postsStatus === "succeeded") {
-    const orderedPosts = posts
-      .slice()
-      .sort((a, b) => b.date.localeCompare(a.date));
-    content = orderedPosts.map((post, key) => (
-      <PostExcerpt key={key} post={post} />
-    ));
+    // const orderedPosts = posts
+    //   .slice()
+    //   .sort((a, b) => b.date.localeCompare(a.date));
+    // content = orderedPosts.map((post, key) => (
+    //   <PostExcerpt key={key} post={post} />
+    // ));
+    content = orderedPostsIds.map(postId => <PostExcerpt key={postId} postId={postId}/>)
   } else if (postsStatus === "failed") {
     content = <p>{error}</p>;
   }
